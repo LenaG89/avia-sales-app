@@ -13,6 +13,11 @@ function App() {
     { label: "2 пересадки", name: "Two", active: false },
     { label: "3 пересадки", name: "Three", active: false },
   ]);
+  const [tabs, setTabs] = useState([
+    { label: "Самый дешевый", name: "cheapest", active: true },
+    { label: "Самый быстрый", name: "fastest", active: false },
+    { label: "Оптимальный", name: "optimal", active: false },
+  ]);
   return (
     <div className={styles.app}>
       <div className={styles.logo}>
@@ -21,7 +26,7 @@ function App() {
       <div className={styles.content}>
         <TransfersFilter filters={filters} />
         <div className={styles.ticketslist}>
-          <Tabs />
+          <Tabs tabsData={tabs}/>
           <TicketsList />
         </div>
       </div>

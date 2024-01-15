@@ -16,6 +16,7 @@
         display: inline-flex;
         align-items: center;
         user-select: none;
+        white-space: nowrap;
         &:hover {
           background-color: #f1fcff;
           cursor: pointer;
