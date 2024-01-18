@@ -26,7 +26,7 @@ function App() {
       <div className={styles.content}>
         <TransfersFilter filters={filters} />
         <div className={styles.ticketslist}>
-          <Tabs tabsData={tabs}/>
+          <Tabs tabsData={tabs} />
           <TicketsList />
         </div>
       </div>

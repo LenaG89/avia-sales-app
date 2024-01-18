@@ -1,2 +1,2 @@
 import TicketsList from "./TicketsList";
-export default TicketsList
+export default TicketsList;

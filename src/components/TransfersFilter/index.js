@@ -1,2 +1,2 @@
-import TransfersFilter from "./TransfersFilter"
-export default TransfersFilter
+import TransfersFilter from "./TransfersFilter";
+export default TransfersFilter;
