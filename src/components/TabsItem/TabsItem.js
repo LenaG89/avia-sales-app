@@ -1,12 +1,19 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setActiveTab } from "../redux/slices/tabSlice";
 import styles from "./TabsItem.module.scss";
 
 const TabsItem = ({ tabprops }) => {
-  const { label, active } = tabprops;
+  const dispatch = useDispatch();
+  const handleActiveTab = (name) => dispatch(setActiveTab(name));
+  const { label, active, name } = tabprops;
 
   return (
     <li
+      id={name}
+      name={name}
       className={active ? `${styles.item} ${styles.item_active}` : styles.item}
+      onClick={() => handleActiveTab(name)}
     >
       {label}
     </li>

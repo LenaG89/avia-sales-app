@@ -1,8 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import TransfersFilterItem from "../TransfersFilterItem";
 import styles from "./TransfersFilter.module.scss";
 
-const TransfersFilter = ({ filters }) => {
+const TransfersFilter = () => {
+  const filters = useSelector((state) => state.filters.filters);
   const elements = filters.map((filter) => {
     return <TransfersFilterItem key={filter.name} filterProps={filter} />;
   });
