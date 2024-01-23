@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.12.5",
+    "axios": "^1.6.5",
     "date-fns": "^3.0.0",
     "electron": "^28.1.1",
     "prop-types": "^15.8.1",
