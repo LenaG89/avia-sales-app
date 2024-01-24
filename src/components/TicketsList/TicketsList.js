@@ -1,17 +1,18 @@
 import React from "react";
 import Ticket from "../Ticket";
+import Loader from "../Loader/Loader";
+import Error from "../Error/Error";
 import {  useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSearchId,
   fetchTickets,
- 
 } from "../redux/slices/ticketSlice";
 import styles from "./TicketsList.module.scss";
 
 const TicketsList = () => {
   const [visibleTickets, setVisibleTickets] = useState(5);
-  const { id, tickets } = useSelector((state) => state.tickets);
+  const { id, tickets, isLoading, errorMessage } = useSelector((state) => state.tickets);
   const tabs = useSelector((state) => state.tabs.tabs);
   const filters = useSelector((state) => state.filters.filters);
   const dispatch = useDispatch();
@@ -73,9 +74,10 @@ if (arr && activeTab) {
 
   return (
     <ul className={styles.tickets}>
+      {errorMessage ? <Error errorMessage={errorMessage} /> : null} 
       {!activeFilterCount ? <div className={styles.title}>Рейсов, подходящих под заданные фильтры, не найдено</div>: null}
-      {/* {isLoading ? <Spiner /> : <h2 className={styles.title}>Общее количество билетов: {tickets.length}</h2>} */}
-      {sortTickets(tickets).slice(0, visibleTickets).map((ticket, i)=>(  
+      {isLoading ? <Loader /> : null}
+      {!errorMessage && sortTickets(tickets).slice(0, visibleTickets).map((ticket, i)=>(  
       <Ticket 
           key={i}
           carrier={ticket.carrier} 

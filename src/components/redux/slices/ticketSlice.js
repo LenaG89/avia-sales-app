@@ -1,37 +1,58 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import axios from "axios";
-
+import { useDispatch } from "react-redux";
 
 const initialState = {
-  tickets: [], 
+  tickets: [],
   id: "",
   isLoading: false,
-  
+  errorMessage: "",
 };
 
 export const fetchSearchId = createAsyncThunk(
   "tickets/fetchSearchId",
-  async () => {
+  async (api) => {
+    try {
     const url = `https://aviasales-test-api.kata.academy/search`;
-    const res = await axios.get(`${url}`);
-    const id = res.data.searchId;
-    console.log(id);
-    return id;
+    const res = await fetch(`${url}`);
+    if (!res.ok) {
+      throw new Error(`Could not fetch searchId`);
+    }
+    const data = await res.json();
+    return data.searchId;
   }
-);
+  catch(e){
+    if (e.message === `Could not fetch searchId`) {
+      api.dispatch(onError(e.message));
+      api.dispatch(clearError());
+    }
+    
+  }
+});
 export const fetchTickets = createAsyncThunk(
   "tickets/fetchTickets",
   async (id, api) => {
     api.dispatch(isLoading(true));
-    const url = `https://aviasales-test-api.kata.academy/tickets?searchId=${id}`;
-    const res = await axios.get(`${url}`);
-    console.log(res.data);
-    if (!res.data.stop) {
-      api.dispatch(addTickets(res.data.tickets));
-      await api.dispatch(fetchTickets(id));
-    } else {
-      api.dispatch(isLoading(false));
+    try {
+      const url = `https://aviasales-test-api.kata.academy/tickets?searchId=${id}`;
+      const res = await fetch(`${url}`);
+      if (!res.ok) {
+        throw new Error(`Could not fetch tickets`);
+      }
+      const data = await res.json();
+
+      if (!data.stop) {
+        api.dispatch(addTickets(data.tickets));
+        await api.dispatch(fetchTickets(id));
+      } else {
+        api.dispatch(isLoading(false));
+      }
+    } catch (e) {
+      if (e.message === `Could not fetch tickets`) {
+        await api.dispatch(fetchTickets(id));
+      }
+
+      return api.rejectWithValue(e.message);
     }
   }
 );
@@ -42,19 +63,23 @@ const ticketSlice = createSlice({
   reducers: {
     addTickets: (state, action) => {
       state.tickets.push(...action.payload);
-      state.isLoading = action.payload;
     },
     isLoading(state, action) {
       state.isLoading = action.payload;
+    },
+    onError(state, action) {
+      state.errorMessage= action.payload
+    },
+    clearError(state, action) {
+      state.errorMessage= ''
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSearchId.fulfilled, (state, action) => {
       state.id = action.payload;
     });
-    
   },
 });
 
-export const { addTickets, isLoading } = ticketSlice.actions;
+export const { addTickets, isLoading, onError, clearError } = ticketSlice.actions;
 export default ticketSlice.reducer;
