@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./Ticket.module.scss";
 
 
 const Ticket = ({ carrier, segments, price }) => {
+
   const formatTimeDuration = (min) => {
     const hours = Math.floor(min / 60);
     const minutes = min % 60;
@@ -91,5 +93,18 @@ const Ticket = ({ carrier, segments, price }) => {
       </div>
     </li>
   );
+};
+Ticket.propTypes = {
+  carrier: PropTypes.string,
+  segments: PropTypes.arrayOf(
+    PropTypes.shape({
+      origin: PropTypes.string,
+      destination: PropTypes.string,
+      date: PropTypes.string,
+      stops: PropTypes.array,
+      duration: PropTypes.number
+    })
+  ),
+  price: PropTypes.number
 };
 export default Ticket;
