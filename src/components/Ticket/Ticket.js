@@ -58,7 +58,7 @@ const Ticket = ({ carrier, segments, price }) => {
           <div className={styles.top}>
             {segments[0].stops.length
               ? `${segments[0].stops.length} пересадки`
-              : `без пересадки`}{" "}
+              : `без пересадок`}{" "}
           </div>
           <div className={styles.bot}>{segments[0].stops.join(",")}</div>
         </div>
@@ -84,7 +84,7 @@ const Ticket = ({ carrier, segments, price }) => {
           <div className={styles.top}>
             {segments[1].stops.length
               ? `${segments[1].stops.length} пересадки`
-              : `без пересадки`}
+              : `без пересадок`}
           </div>
           <div className={styles.bot}>{segments[1].stops.join(",")}</div>
         </div>
