@@ -8,6 +8,6 @@ const Tabs = () => {
   const elements = tabsData.map((tab) => {
     return <TabsItem key={tab.name} tabprops={tab} />;
   });
-  return <ul className={stylse.tabs}>{elements}</ul>;
+  return <div className={stylse.tabs}>{elements}</div>;
 };
 export default Tabs;

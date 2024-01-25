@@ -1,6 +1,6 @@
 import React from "react";
 import {  useDispatch } from "react-redux";
-import { setActiveFilter } from "../redux/slices/filterSlice";
+import { setActiveFilter } from '../../redux/slices/filterSlice' ;
 import styles from "./TransfersFilterItem.module.scss";
 
 const TransfersFilterItem = ({ filterProps }) => {

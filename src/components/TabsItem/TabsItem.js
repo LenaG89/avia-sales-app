@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setActiveTab } from "../redux/slices/tabSlice";
+import { setActiveTab } from "../../redux/slices/tabSlice";
+
 import styles from "./TabsItem.module.scss";
 
 const TabsItem = ({ tabprops }) => {
@@ -9,14 +10,15 @@ const TabsItem = ({ tabprops }) => {
   const { label, active, name } = tabprops;
 
   return (
-    <li
+    <button
+      type="button"
       id={name}
       name={name}
       className={active ? `${styles.item} ${styles.item_active}` : styles.item}
       onClick={() => handleActiveTab(name)}
     >
       {label}
-    </li>
+    </button>
   );
 };
 export default TabsItem;
