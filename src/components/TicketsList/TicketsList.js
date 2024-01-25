@@ -20,72 +20,72 @@ const TicketsList = () => {
   const dispatch = useDispatch();
   const activeFilterCount = filters.filter((item) => item.active).length;
 
-  const sortTickets = useMemo(() => {
+  const sortTicketsByFilter = useMemo(() => {
     return (arr) => {
-      const activeTab = tabs.find((item) => item.active);
       const activeFilters = {};
       filters.forEach((item) => {
         activeFilters[item.name] = item.active;
       });
 
-      if (arr && activeTab) {
-        const filteredArr = arr.filter((item) => {
-          const ticketStops1 = item.segments[0].stops.length;
-          const ticketStops2 = item.segments[1].stops.length;
-          if (Object.values(activeFilters).every((filter) => !filter)) {
-          }
-
-          if (
-            (activeFilters["not"] && ticketStops1 === 0) ||
-            (activeFilters["not"] && ticketStops2 === 0) ||
-            (activeFilters["not"] && ticketStops1 === 0 && ticketStops2 === 0)
-          ) {
-            return true;
-          }
-          if (
-            (activeFilters["one"] && ticketStops1 === 1) ||
-            (activeFilters["one"] && ticketStops2 === 1) ||
-            (activeFilters["one"] && ticketStops1 === 1 && ticketStops2 === 1)
-          ) {
-            return true;
-          }
-          if (
-            (activeFilters["two"] && ticketStops1 === 2) ||
-            (activeFilters["two"] && ticketStops2 === 2) ||
-            (activeFilters["two"] && ticketStops1 === 2 && ticketStops2 === 2)
-          ) {
-            return true;
-          }
-          if (
-            (activeFilters["three"] && ticketStops1 === 3) ||
-            (activeFilters["three"] && ticketStops2 === 3) ||
-            (activeFilters["three"] && ticketStops1 === 3 && ticketStops2 === 3)
-          ) {
-            return true;
-          }
-
-          return false;
-        });
-
-        switch (activeTab.name) {
-          case "cheapest":
-            return filteredArr.sort((a, b) => a.price - b.price);
-          case "fastest":
-            return filteredArr.sort(
-              (a, b) =>
-                Math.floor(a.segments[0].duration + a.segments[1].duration) -
-                Math.floor(b.segments[0].duration + b.segments[1].duration)
-            );
-          case "optimal":
-            return filteredArr;
-          default:
-            return [];
+      const filteredArr = arr.filter((item) => {
+        const ticketStops1 = item.segments[0].stops.length;
+        const ticketStops2 = item.segments[1].stops.length;
+        if (Object.values(activeFilters).every((filter) => !filter)) {
         }
-      } else {
-        return [];
-      }
+
+        if (
+          (activeFilters["not"] && ticketStops1 === 0) ||
+          (activeFilters["not"] && ticketStops2 === 0) ||
+          (activeFilters["not"] && ticketStops1 === 0 && ticketStops2 === 0)
+        ) {
+          return true;
+        }
+        if (
+          (activeFilters["one"] && ticketStops1 === 1) ||
+          (activeFilters["one"] && ticketStops2 === 1) ||
+          (activeFilters["one"] && ticketStops1 === 1 && ticketStops2 === 1)
+        ) {
+          return true;
+        }
+        if (
+          (activeFilters["two"] && ticketStops1 === 2) ||
+          (activeFilters["two"] && ticketStops2 === 2) ||
+          (activeFilters["two"] && ticketStops1 === 2 && ticketStops2 === 2)
+        ) {
+          return true;
+        }
+        if (
+          (activeFilters["three"] && ticketStops1 === 3) ||
+          (activeFilters["three"] && ticketStops2 === 3) ||
+          (activeFilters["three"] && ticketStops1 === 3 && ticketStops2 === 3)
+        ) {
+          return true;
+        }
+        return false;
+      });
+      return filteredArr;
     };
-  }, [tabs, filters]);
+  }, [filters]);
+
+  const filteredArr = sortTicketsByFilter(tickets);
+
+  const sortTab = (arr) => {
+    const activeTab = tabs.find((item) => item.active);
+    switch (activeTab.name) {
+      case "cheapest":
+        return arr.sort((a, b) => a.price - b.price);
+      case "fastest":
+        return arr.sort(
+          (a, b) =>
+            Math.floor(a.segments[0].duration + a.segments[1].duration) -
+            Math.floor(b.segments[0].duration + b.segments[1].duration)
+        );
+      case "optimal":
+        return arr;
+      default:
+        return [];
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchSearchId());
@@ -107,7 +107,7 @@ const TicketsList = () => {
       ) : null}
       {isLoading ? <Loader /> : null}
       {!errorMessage &&
-        sortTickets(tickets)
+        sortTab(filteredArr)
           .slice(0, visibleTickets)
           .map((ticket, i) => (
             <Ticket
