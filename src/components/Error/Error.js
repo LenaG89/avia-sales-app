@@ -1,6 +1,6 @@
 import React from "react";
-import { Alert } from 'antd'
-import './Error.css'
+import { Alert } from "antd";
+import "./Error.css";
 
 function Error({ errorMessage }) {
   return (
@@ -10,7 +10,7 @@ function Error({ errorMessage }) {
       type="error"
       className="alert-error"
     />
-  )
+  );
 }
 
-export default Error
+export default Error;

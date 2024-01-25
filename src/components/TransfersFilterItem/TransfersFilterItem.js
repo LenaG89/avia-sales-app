@@ -1,6 +1,6 @@
 import React from "react";
-import {  useDispatch } from "react-redux";
-import { setActiveFilter } from '../../redux/slices/filterSlice' ;
+import { useDispatch } from "react-redux";
+import { setActiveFilter } from "../../redux/slices/filterSlice";
 import styles from "./TransfersFilterItem.module.scss";
 
 const TransfersFilterItem = ({ filterProps }) => {
@@ -8,8 +8,8 @@ const TransfersFilterItem = ({ filterProps }) => {
 
   const dispatch = useDispatch();
   const handleActiveFilterChange = (name) => {
-    dispatch(setActiveFilter(name))
-  }
+    dispatch(setActiveFilter(name));
+  };
   return (
     <li className={styles.item}>
       <input
@@ -17,11 +17,9 @@ const TransfersFilterItem = ({ filterProps }) => {
         id={name}
         name={name}
         checked={active}
-        onChange={()=>handleActiveFilterChange(name)}
+        onChange={() => handleActiveFilterChange(name)}
       />
-      <label htmlFor={name} >
-        {label}
-      </label>
+      <label htmlFor={name}>{label}</label>
     </li>
   );
 };

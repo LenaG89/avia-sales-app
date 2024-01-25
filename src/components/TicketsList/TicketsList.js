@@ -13,7 +13,7 @@ import styles from "./TicketsList.module.scss";
 const TicketsList = () => {
   const [visibleTickets, setVisibleTickets] = useState(5);
   const { id, tickets, isLoading, errorMessage } = useSelector(
-    (state) => state.tickets
+    (state) => state.tickets,
   );
   const tabs = useSelector((state) => state.tabs.tabs);
   const filters = useSelector((state) => state.filters.filters);
@@ -78,7 +78,7 @@ const TicketsList = () => {
         return arr.sort(
           (a, b) =>
             Math.floor(a.segments[0].duration + a.segments[1].duration) -
-            Math.floor(b.segments[0].duration + b.segments[1].duration)
+            Math.floor(b.segments[0].duration + b.segments[1].duration),
         );
       case "optimal":
         return arr;

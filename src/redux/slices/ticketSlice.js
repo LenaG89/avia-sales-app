@@ -1,15 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchSearchId } from "../serverActions/serverActions";
 
-
-
 const initialState = {
   tickets: [],
   id: "",
   isLoading: false,
   errorMessage: "",
 };
-
 
 const ticketSlice = createSlice({
   name: "tickets",
@@ -22,10 +19,10 @@ const ticketSlice = createSlice({
       state.isLoading = action.payload;
     },
     onError(state, action) {
-      state.errorMessage= action.payload
+      state.errorMessage = action.payload;
     },
     clearError(state, action) {
-      state.errorMessage= ''
+      state.errorMessage = "";
     },
   },
   extraReducers: (builder) => {
@@ -35,5 +32,6 @@ const ticketSlice = createSlice({
   },
 });
 
-export const { addTickets, isLoading, onError, clearError } = ticketSlice.actions;
+export const { addTickets, isLoading, onError, clearError } =
+  ticketSlice.actions;
 export default ticketSlice.reducer;
